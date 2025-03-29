@@ -64,4 +64,10 @@ public class PassengerService {
                 200,
                 "Ok");
     }
+    @Transactional(readOnly = true)
+    public Passenger findById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pasajero no encontrado con ID: " + id));
+    }
+
 }

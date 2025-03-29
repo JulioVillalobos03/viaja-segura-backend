@@ -22,10 +22,17 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/passengers").permitAll()
                         .requestMatchers("/api/users/admins").permitAll()
                         .requestMatchers("/api/users/drivers").permitAll()
+                        .requestMatchers("/api/vehicles/get-all").permitAll()
+                        .requestMatchers("/api/vehicles/driver/**").permitAll()
+                        .requestMatchers("/api/users/admins/{id}").permitAll()
+                        .requestMatchers("/api/users/passengers/{id}").permitAll()
+                        .requestMatchers("/api/users/drivers/{id}").permitAll()
+
 
                         // 🔐 Solo ADMIN puede registrar conductores y admins
                         .requestMatchers("/api/users/register/admin").hasAuthority("ADMIN")
                         .requestMatchers("/api/users/register/driver").hasAuthority("ADMIN")
+                        .requestMatchers("/api/vehicles/register").hasAuthority("ADMIN")
 
                         // 🔒 Todo lo demás requiere autenticación
                         .anyRequest().authenticated()
