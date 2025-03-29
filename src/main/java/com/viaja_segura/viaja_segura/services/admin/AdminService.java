@@ -44,7 +44,7 @@ public class AdminService {
 
         Admin newAdmin = repo.save(admin);
 
-        // Enviar correo de bienvenida
+
         emailService.sendUserRegistrationEmail(
                 newAdmin.getEmail(),
                 newAdmin.getName(),

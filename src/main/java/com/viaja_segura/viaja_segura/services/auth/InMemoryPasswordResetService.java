@@ -45,7 +45,6 @@ public class InMemoryPasswordResetService {
 
         String code = generateCode();
 
-        // Calcular expiración (10 minutos después)
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.MINUTE, 10);
@@ -68,7 +67,6 @@ public class InMemoryPasswordResetService {
             throw new RuntimeException("Código inválido o expirado");
         }
 
-        // Buscar en passengers
         Optional<Passenger> passenger = passengerRepo.findByEmail(email);
         if (passenger.isPresent()) {
             passenger.get().setPassword(encoder.encode(newPassword));
@@ -77,7 +75,6 @@ public class InMemoryPasswordResetService {
             return;
         }
 
-        // Buscar en drivers
         Optional<Driver> driver = driverRepo.findByEmail(email);
         if (driver.isPresent()) {
             driver.get().setPassword(encoder.encode(newPassword));
@@ -86,7 +83,6 @@ public class InMemoryPasswordResetService {
             return;
         }
 
-        // Buscar en admins
         Optional<Admin> admin = adminRepo.findByEmail(email);
         if (admin.isPresent()) {
             admin.get().setPassword(encoder.encode(newPassword));
@@ -95,14 +91,13 @@ public class InMemoryPasswordResetService {
             return;
         }
 
-        // Si no encontró el usuario
         throw new RuntimeException("Usuario no encontrado");
     }
 
 
     private String generateCode() {
         Random random = new Random();
-        int number = 100000 + random.nextInt(900000); // Asegura 6 dígitos
+        int number = 100000 + random.nextInt(900000);
         return String.valueOf(number);
     }
 }

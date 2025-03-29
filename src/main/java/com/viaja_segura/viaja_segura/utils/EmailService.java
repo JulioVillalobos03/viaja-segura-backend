@@ -41,7 +41,7 @@ public class EmailService {
             helper.setSubject(subject);
             helper.setText(content, true);
 
-            // Agregar logo (ajusta la ruta si usas otro nombre o ubicación)
+
             FileSystemResource logo = new FileSystemResource(new File("src/main/resources/static/images/Logo_VS.png"));
             helper.addInline("logoImage", logo);
 
@@ -65,7 +65,7 @@ public class EmailService {
             helper.setTo(to);
             helper.setSubject("Bienvenido a Viaja Segura");
             helper.setText(content, true);
-            helper.addInline("logoImage", new ClassPathResource("static/images/Logo_VS.png")); // asegúrate de tener este archivo
+            helper.addInline("logoImage", new ClassPathResource("static/images/Logo_VS.png"));
 
             mailSender.send(message);
         } catch (Exception e) {
