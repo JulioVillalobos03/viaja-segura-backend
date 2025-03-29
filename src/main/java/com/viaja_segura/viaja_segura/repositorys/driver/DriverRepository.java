@@ -14,4 +14,6 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
     @EntityGraph(attributePaths = {"vehicle", "personalInfo"})
     List<Driver> findAll();
 
+    Optional<Driver> findDriverById(Long id);
+
 }
