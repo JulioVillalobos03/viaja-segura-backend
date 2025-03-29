@@ -53,4 +53,21 @@ public class UserController {
     public ResponseEntity<Response<List<Driver>>> getDrivers() {
         return ResponseEntity.ok(driverService.findAll());
     }
+
+    @GetMapping("/admins/{id}")
+    public ResponseEntity<Admin> getAdminById(@PathVariable Long id) {
+        return ResponseEntity.ok(adminService.findById(id));
+    }
+
+    @GetMapping("/passengers/{id}")
+    public ResponseEntity<Passenger> getPassengerById(@PathVariable Long id) {
+        return ResponseEntity.ok(passengerService.findById(id));
+    }
+
+    @GetMapping("/drivers/{id}")
+    public ResponseEntity<Driver> getDriverById(@PathVariable Long id) {
+        return ResponseEntity.ok(driverService.findById(id));
+    }
+
+
 }

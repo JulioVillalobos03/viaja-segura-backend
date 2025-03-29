@@ -1,6 +1,7 @@
 package com.viaja_segura.viaja_segura.services.driver;
 
 import com.viaja_segura.viaja_segura.dtos.driver.DriverDto;
+import com.viaja_segura.viaja_segura.models.admin.Admin;
 import com.viaja_segura.viaja_segura.models.driver.Driver;
 import com.viaja_segura.viaja_segura.models.driver_personal_info.DriverPersonalInfo;
 import com.viaja_segura.viaja_segura.repositorys.driver.DriverRepository;
@@ -71,4 +72,12 @@ public class DriverService {
         List<Driver> data = repo.findAll();
         return new Response<>(data, false, 200, "Lista de conductores");
     }
+
+    @Transactional(readOnly = true)
+    public Driver findById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + id));
+    }
+
+
 }

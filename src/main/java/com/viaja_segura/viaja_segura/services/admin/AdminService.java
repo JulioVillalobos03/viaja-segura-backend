@@ -64,4 +64,11 @@ public class AdminService {
                 200,
                 "Ok");
     }
+
+    @Transactional(readOnly = true)
+    public Admin findById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Administrador no encontrado con ID: " + id));
+    }
+
 }
