@@ -3,6 +3,7 @@ package com.viaja_segura.viaja_segura.services.passenger;
 import com.viaja_segura.viaja_segura.dtos.passenger.PassengerDto;
 import com.viaja_segura.viaja_segura.models.passenger.Passenger;
 import com.viaja_segura.viaja_segura.repositorys.passenger.PassengerRepository;
+import com.viaja_segura.viaja_segura.utils.EmailService;
 import com.viaja_segura.viaja_segura.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,9 @@ public class PassengerService {
     private PassengerRepository repo;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
 
     public Passenger register(PassengerDto dto) {
         if (repo.existsByEmail(dto.email)) {
@@ -39,7 +43,17 @@ public class PassengerService {
         passenger.setCreatedAt(LocalDateTime.now());
         passenger.setUpdatedAt(LocalDateTime.now());
 
-        return repo.save(passenger);
+        Passenger saved = repo.save(passenger);
+
+        emailService.sendUserRegistrationEmail(
+                saved.getEmail(),
+                saved.getName(),
+                saved.getLastName(),
+                saved.getEmail(),
+                "PASSENGER"
+        );
+
+        return saved;
     }
 
     @Transactional(readOnly = true)
