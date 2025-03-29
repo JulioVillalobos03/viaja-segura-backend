@@ -4,6 +4,7 @@ import com.viaja_segura.viaja_segura.dtos.admin.AdminDto;
 import com.viaja_segura.viaja_segura.exception.EmailAlreadyExistsException;
 import com.viaja_segura.viaja_segura.models.admin.Admin;
 import com.viaja_segura.viaja_segura.repositorys.admin.AdminRepository;
+import com.viaja_segura.viaja_segura.utils.EmailService;
 import com.viaja_segura.viaja_segura.utils.Response;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,10 @@ import java.util.List;
 public class AdminService {
     @Autowired
     private AdminRepository repo;
-    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private EmailService emailService;
 
     public Admin register(AdminDto dto) {
         if (repo.existsByEmail(dto.email)) {
@@ -38,7 +42,18 @@ public class AdminService {
         admin.setCreatedAt(LocalDateTime.now());
         admin.setUpdatedAt(LocalDateTime.now());
 
-        return repo.save(admin);
+        Admin newAdmin = repo.save(admin);
+
+
+        emailService.sendUserRegistrationEmail(
+                newAdmin.getEmail(),
+                newAdmin.getName(),
+                newAdmin.getLastName(),
+                newAdmin.getEmail(),
+                "ADMIN"
+        );
+
+        return newAdmin;
     }
 
     @Transactional(readOnly = true)

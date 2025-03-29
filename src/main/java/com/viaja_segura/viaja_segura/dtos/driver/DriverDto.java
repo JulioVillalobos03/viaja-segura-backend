@@ -1,5 +1,7 @@
 package com.viaja_segura.viaja_segura.dtos.driver;
 
+import com.viaja_segura.viaja_segura.dtos.vehicle.VehicleDto;
+
 import java.time.LocalDate;
 
 public class DriverDto {
@@ -19,4 +21,5 @@ public class DriverDto {
     public String licenseId;
     public Boolean testPassed;
     public String badgeExpiration;
+    public VehicleDto vehicle;
 }
