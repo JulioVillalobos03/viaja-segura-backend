@@ -1,7 +1,9 @@
 package com.viaja_segura.viaja_segura.models.driver;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.viaja_segura.viaja_segura.models.driver_personal_info.DriverPersonalInfo;
+import com.viaja_segura.viaja_segura.models.vehicle.Vehicle;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -40,6 +42,9 @@ public class Driver {
 
     @OneToOne(mappedBy = "driver", cascade = CascadeType.ALL)
     private DriverPersonalInfo personalInfo;
+
+    @OneToOne(mappedBy = "driver", cascade = CascadeType.ALL)
+    private Vehicle vehicle;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -182,5 +187,13 @@ public class Driver {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 }

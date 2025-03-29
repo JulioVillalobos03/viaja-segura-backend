@@ -1,0 +1,122 @@
+<!-- src/main/resources/templates/reset-password-email.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar contraseña - Viaja Segura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9fafc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #773357, #773357);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .header h1 {
+            margin: 10px 0 0;
+            font-size: 26px;
+        }
+
+        .content {
+            padding: 30px 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .content h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #003366;
+        }
+
+        .verification-code {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+
+        .code-box {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            vertical-align: middle;
+            border: 2px solid #BC9B73;
+            border-radius: 8px;
+            background-color: #e9f5ff;
+            color: #773357;
+        }
+
+
+        .footer {
+            background-color: #773357;
+            padding: 15px;
+            text-align: center;
+            font-size: 13px;
+            color: #777;
+            border-top: 1px solid #ddd;
+        }
+
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .footer p {
+            color: #ffffff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <img src="cid:logoImage" alt="Viaja Segura Logo" width="150" style="margin-bottom: 10px;">
+        <h1>Recuperación de Contraseña</h1>
+    </div>
+
+    <div class="content">
+        <h2>Hola 👋</h2>
+        <p>Tu código para recuperar la contraseña es el siguiente:</p>
+
+        <table align="center" cellpadding="10">
+            <tr>
+                <td class="code-box">{{dig1}}</td>
+                <td class="code-box">{{dig2}}</td>
+                <td class="code-box">{{dig3}}</td>
+                <td class="code-box">{{dig4}}</td>
+                <td class="code-box">{{dig5}}</td>
+                <td class="code-box">{{dig6}}</td>
+            </tr>
+        </table>
+
+        <p>Este código expirará en 10 minutos.</p>
+        <p>Si no solicitaste esto, ignora este correo.</p>
+    </div>
+
+    <div class="footer">
+        <p>Enviado a <a href="#">{{email}}</a></p>
+        <p>&copy; 2025 Viaja Segura. Todos los derechos reservados.</p>
+    </div>
+</div>
+</body>
+</html>

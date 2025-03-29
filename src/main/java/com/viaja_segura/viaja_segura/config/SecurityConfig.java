@@ -17,6 +17,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // 🔓 Endpoints públicos
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/password/**").permitAll()
                         .requestMatchers("/api/users/register/passenger").permitAll()
                         .requestMatchers("/api/users/passengers").permitAll()
                         .requestMatchers("/api/users/admins").permitAll()
