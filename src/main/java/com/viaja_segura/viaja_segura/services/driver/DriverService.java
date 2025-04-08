@@ -4,7 +4,9 @@ import com.viaja_segura.viaja_segura.dtos.driver.DriverDto;
 import com.viaja_segura.viaja_segura.models.admin.Admin;
 import com.viaja_segura.viaja_segura.models.driver.Driver;
 import com.viaja_segura.viaja_segura.models.driver_personal_info.DriverPersonalInfo;
+import com.viaja_segura.viaja_segura.models.driver_status.DriverStatus;
 import com.viaja_segura.viaja_segura.repositorys.driver.DriverRepository;
+import com.viaja_segura.viaja_segura.repositorys.driver.DriverStatusRepository;
 import com.viaja_segura.viaja_segura.utils.EmailService;
 import com.viaja_segura.viaja_segura.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,10 @@ public class DriverService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private DriverStatusRepository driverStatusRepository;
+
+
     public Driver register(DriverDto dto) {
         if (repo.existsByEmail(dto.email)) {
             throw new RuntimeException("Email ya registrado");
@@ -43,7 +49,9 @@ public class DriverService {
         driver.setPhone(dto.phone);
         driver.setPassword(passwordEncoder.encode(dto.password));
         driver.setAvailable(false);
-        driver.setStatus(Driver.DriverStatus.inactive);
+        DriverStatus inactiveStatus = driverStatusRepository.findByName("inactive")
+                .orElseThrow(() -> new RuntimeException("Estado 'inactive' no encontrado"));
+        driver.setStatus(inactiveStatus);
         driver.setCreatedAt(LocalDateTime.now());
         driver.setUpdatedAt(LocalDateTime.now());
 
@@ -77,6 +85,38 @@ public class DriverService {
     public Driver findById(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + id));
+    }
+
+    @Transactional
+    public Driver updateDriverInfo(Long id, DriverDto dto) {
+        Driver driver = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + id));
+
+        driver.setName(dto.name);
+        driver.setLastName(dto.lastName);
+        driver.setBirthDate(dto.birthDate);
+        driver.setSex(dto.sex);
+        driver.setCurp(dto.curp);
+        driver.setMunicipality(dto.municipality);
+        driver.setCity(dto.city);
+        driver.setPhone(dto.phone);
+        driver.setUpdatedAt(LocalDateTime.now());
+
+        return repo.save(driver);
+    }
+
+    @Transactional
+    public Driver updateDriverStatus(Long id, String statusName) {
+        Driver driver = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + id));
+
+        DriverStatus status = driverStatusRepository.findByName(statusName)
+                .orElseThrow(() -> new RuntimeException("Estado no válido: " + statusName));
+
+        driver.setStatus(status);
+        driver.setUpdatedAt(LocalDateTime.now());
+
+        return repo.save(driver);
     }
 
 
