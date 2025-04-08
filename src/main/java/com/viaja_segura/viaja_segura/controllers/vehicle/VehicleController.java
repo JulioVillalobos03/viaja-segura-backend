@@ -30,4 +30,12 @@ public class VehicleController {
     public ResponseEntity<Vehicle> getByDriverId(@PathVariable Long driverId) {
         return ResponseEntity.ok(vehicleService.findByDriverId(driverId));
     }
+
+    @PutMapping("/{vehicleId}/info")
+    public ResponseEntity<Vehicle> updateVehicleInfo(
+            @PathVariable Long vehicleId,
+            @RequestBody VehicleDto dto) {
+        Vehicle updated = vehicleService.updateVehicleInfo(vehicleId, dto);
+        return ResponseEntity.ok(updated);
+    }
 }
