@@ -69,5 +69,28 @@ public class UserController {
         return ResponseEntity.ok(driverService.findById(id));
     }
 
+    @PutMapping("/drivers/{id}/info")
+    public ResponseEntity<Driver> updateDriverInfo(
+            @PathVariable Long id,
+            @RequestBody DriverDto dto) {
+        Driver updated = driverService.updateDriverInfo(id, dto);
+        return ResponseEntity.ok(updated);
+    }
+
+    @PutMapping("/drivers/{id}/status")
+    public ResponseEntity<Driver> updateDriverStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+        Driver updated = driverService.updateDriverStatus(id, status);
+        return ResponseEntity.ok(updated);
+    }
+
+    @PutMapping("/passengers/{id}/info")
+    public ResponseEntity<Passenger> updateInfo(
+            @PathVariable Long id,
+            @RequestBody PassengerDto dto) {
+        Passenger updated = passengerService.updatePassengerInfo(id, dto);
+        return ResponseEntity.ok(updated);
+    }
 
 }

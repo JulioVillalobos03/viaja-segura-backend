@@ -3,6 +3,7 @@ package com.viaja_segura.viaja_segura.models.vehicle;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.viaja_segura.viaja_segura.models.driver.Driver;
+import com.viaja_segura.viaja_segura.models.vehicle_status.VehicleStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -19,14 +20,15 @@ public class Vehicle {
     @JsonIgnore
     private Driver driver;
 
-
     private String plateNumber;
     private String brand;
     private String model;
     private String color;
     private Integer seats;
     private Integer year;
-
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private VehicleStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -92,6 +94,14 @@ public class Vehicle {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public VehicleStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(VehicleStatus status) {
+        this.status = status;
     }
 
     public LocalDateTime getCreatedAt() {

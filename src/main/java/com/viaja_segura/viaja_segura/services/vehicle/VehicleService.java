@@ -3,8 +3,10 @@ package com.viaja_segura.viaja_segura.services.vehicle;
 import com.viaja_segura.viaja_segura.dtos.vehicle.VehicleDto;
 import com.viaja_segura.viaja_segura.models.driver.Driver;
 import com.viaja_segura.viaja_segura.models.vehicle.Vehicle;
+import com.viaja_segura.viaja_segura.models.vehicle_status.VehicleStatus;
 import com.viaja_segura.viaja_segura.repositorys.driver.DriverRepository;
 import com.viaja_segura.viaja_segura.repositorys.vehicle.VehicleRepository;
+import com.viaja_segura.viaja_segura.repositorys.vehicle_status.VehicleStatusRepository;
 import com.viaja_segura.viaja_segura.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +20,16 @@ public class VehicleService {
     private VehicleRepository vehicleRepository;
     @Autowired
     private DriverRepository driverRepository;
+    @Autowired
+    private VehicleStatusRepository vehicleStatusRepository;
 
     public Vehicle createVehicle(VehicleDto dto) {
         Driver driver = driverRepository.findById(dto.driverId)
                 .orElseThrow(() -> new RuntimeException("Driver no encontrado"));
+
+        VehicleStatus status = vehicleStatusRepository.findById(dto.statusId)
+                .orElseThrow(() -> new RuntimeException("Status de vehículo no encontrado"));
+
 
         Vehicle vehicle = new Vehicle();
         vehicle.setDriver(driver);
@@ -31,6 +39,7 @@ public class VehicleService {
         vehicle.setColor(dto.color);
         vehicle.setSeats(dto.seats);
         vehicle.setYear(dto.year);
+        vehicle.setStatus(status);
         vehicle.setCreatedAt(LocalDateTime.now());
         vehicle.setUpdatedAt(LocalDateTime.now());
 
@@ -45,4 +54,24 @@ public class VehicleService {
     public Vehicle findByDriverId(Long driverId) {
         return vehicleRepository.findByDriverId(driverId);
     }
+
+    public Vehicle updateVehicleInfo(Long vehicleId, VehicleDto dto) {
+        Vehicle vehicle = vehicleRepository.findById(vehicleId)
+                .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
+
+        VehicleStatus status = vehicleStatusRepository.findById(dto.statusId)
+                .orElseThrow(() -> new RuntimeException("Status de vehículo no encontrado"));
+
+        vehicle.setPlateNumber(dto.plateNumber);
+        vehicle.setBrand(dto.brand);
+        vehicle.setModel(dto.model);
+        vehicle.setColor(dto.color);
+        vehicle.setSeats(dto.seats);
+        vehicle.setYear(dto.year);
+        vehicle.setStatus(status);
+        vehicle.setUpdatedAt(LocalDateTime.now());
+
+        return vehicleRepository.save(vehicle);
+    }
+
 }

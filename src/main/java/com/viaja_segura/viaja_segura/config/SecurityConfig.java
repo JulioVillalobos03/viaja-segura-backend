@@ -6,6 +6,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
+import java.util.List;
 
 @Configuration
 public class SecurityConfig {
@@ -14,6 +20,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
                         // 🔓 Endpoints públicos
                         .requestMatchers("/api/auth/**").permitAll()
@@ -27,7 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/admins/{id}").permitAll()
                         .requestMatchers("/api/users/passengers/{id}").permitAll()
                         .requestMatchers("/api/users/drivers/{id}").permitAll()
-
+                        .requestMatchers("/ws/**").permitAll()
 
                         // 🔐 Solo ADMIN puede registrar conductores y admins
                         .requestMatchers("/api/users/register/admin").hasAuthority("ADMIN")

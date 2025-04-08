@@ -70,4 +70,22 @@ public class PassengerService {
                 .orElseThrow(() -> new RuntimeException("Pasajero no encontrado con ID: " + id));
     }
 
+    @Transactional
+    public Passenger updatePassengerInfo(Long id, PassengerDto dto) {
+        Passenger passenger = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pasajero no encontrado con ID: " + id));
+
+        passenger.setName(dto.name);
+        passenger.setLastName(dto.lastName);
+        passenger.setBirthDate(dto.birthDate);
+        passenger.setSex(dto.sex);
+        passenger.setCurp(dto.curp);
+        passenger.setMunicipality(dto.municipality);
+        passenger.setCity(dto.city);
+        passenger.setPhone(dto.phone);
+        passenger.setUpdatedAt(LocalDateTime.now());
+
+        return repo.save(passenger);
+    }
+
 }

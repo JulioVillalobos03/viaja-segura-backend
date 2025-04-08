@@ -8,4 +8,5 @@ public class VehicleDto {
     public String color;
     public Integer seats;
     public Integer year;
+    public Long statusId;
 }

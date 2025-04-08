@@ -3,6 +3,7 @@ package com.viaja_segura.viaja_segura.models.driver;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.viaja_segura.viaja_segura.models.driver_personal_info.DriverPersonalInfo;
+import com.viaja_segura.viaja_segura.models.driver_status.DriverStatus;
 import com.viaja_segura.viaja_segura.models.vehicle.Vehicle;
 import jakarta.persistence.*;
 
@@ -15,7 +16,6 @@ public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String lastName;
     private LocalDate birthDate;
@@ -26,16 +26,15 @@ public class Driver {
 
     @Column(unique = true, nullable = false)
     private String email;
-
     private String phone;
 
     @Column(nullable = false)
     @JsonIgnore
     private String password;
-
     private Boolean isAvailable;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "status_id")
     private DriverStatus status;
 
     private Double averageRating;
@@ -49,9 +48,6 @@ public class Driver {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public enum DriverStatus {
-        active, inactive, banned
-    }
 
     public Long getId() {
         return id;

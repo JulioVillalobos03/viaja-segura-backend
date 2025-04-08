@@ -41,10 +41,7 @@ public class AdminService {
         admin.setPassword(passwordEncoder.encode(dto.password));
         admin.setCreatedAt(LocalDateTime.now());
         admin.setUpdatedAt(LocalDateTime.now());
-
         Admin newAdmin = repo.save(admin);
-
-
         emailService.sendUserRegistrationEmail(
                 newAdmin.getEmail(),
                 newAdmin.getName(),
