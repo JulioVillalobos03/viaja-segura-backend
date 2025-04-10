@@ -1,9 +1,11 @@
 package com.viaja_segura.viaja_segura.models.driver_status;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "driver_statuses")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DriverStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
