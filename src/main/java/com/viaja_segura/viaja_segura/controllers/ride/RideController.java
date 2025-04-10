@@ -36,25 +36,10 @@ public class RideController {
     }
 
     @PutMapping("/{rideId}/assign-driver")
-    public Ride assignDriver(Long rideId, Long driverId) {
-        Ride ride = rideRepository.findById(rideId)
-                .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
-
-        Driver driver = driverRepository.findById(driverId)
-                .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
-
-        if (ride.getDriver() != null) {
-            throw new RuntimeException("Este viaje ya tiene un conductor asignado");
-        }
-
-        RideStatus acceptedStatus = rideStatusRepository.findByName("accepted")
-                .orElseThrow(() -> new RuntimeException("Estado 'accepted' no encontrado"));
-
-        ride.setDriver(driver);
-        ride.setStatus(acceptedStatus);
-        ride.setUpdatedAt(LocalDateTime.now());
-
-        return rideRepository.save(ride);
+    public Ride assignDriver(
+            @PathVariable Long rideId,
+            @RequestParam Long driverId) {
+        return rideService.assignDriver(rideId, driverId);
     }
 
 

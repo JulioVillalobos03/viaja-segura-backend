@@ -19,12 +19,10 @@ public class LocationWebSocketController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    @MessageMapping("/location/update") // Cliente manda a /app/location/update
+    @MessageMapping("/location/update")
     public void updateLocation(LocationUpdateDto dto) {
-        // 1. Guardar ubicación en la base de datos
         locationService.updateLocation(dto);
 
-        // 2. Difundir ubicación a los clientes suscritos (por ejemplo: /topic/location)
         messagingTemplate.convertAndSend("/topic/location", dto);
     }
 }

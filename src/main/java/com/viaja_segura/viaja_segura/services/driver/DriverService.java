@@ -64,13 +64,6 @@ public class DriverService {
 
         Driver saved = repo.save(driver);
 
-        emailService.sendUserRegistrationEmail(
-                saved.getEmail(),
-                saved.getName(),
-                saved.getLastName(),
-                saved.getEmail(),
-                "DRIVER"
-        );
 
         return saved;
     }
