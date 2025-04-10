@@ -45,13 +45,7 @@ public class PassengerService {
 
         Passenger saved = repo.save(passenger);
 
-        emailService.sendUserRegistrationEmail(
-                saved.getEmail(),
-                saved.getName(),
-                saved.getLastName(),
-                saved.getEmail(),
-                "PASSENGER"
-        );
+
 
         return saved;
     }
