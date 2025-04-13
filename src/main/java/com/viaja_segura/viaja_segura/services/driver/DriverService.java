@@ -87,14 +87,14 @@ public class DriverService {
         Driver driver = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + id));
 
-        driver.setName(dto.name);
-        driver.setLastName(dto.lastName);
-        driver.setBirthDate(dto.birthDate);
-        driver.setSex(dto.sex);
-        driver.setCurp(dto.curp);
-        driver.setMunicipality(dto.municipality);
-        driver.setCity(dto.city);
-        driver.setPhone(dto.phone);
+        if (dto.name != null) driver.setName(dto.name);
+        if (dto.lastName != null) driver.setLastName(dto.lastName);
+        if (dto.birthDate != null) driver.setBirthDate(dto.birthDate);
+        if (dto.sex != null) driver.setSex(dto.sex);
+        if (dto.curp != null) driver.setCurp(dto.curp);
+        if (dto.municipality != null) driver.setMunicipality(dto.municipality);
+        if (dto.city != null) driver.setCity(dto.city);
+        if (dto.phone != null) driver.setPhone(dto.phone);
         driver.setUpdatedAt(LocalDateTime.now());
 
         return repo.save(driver);
