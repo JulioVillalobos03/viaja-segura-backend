@@ -4,7 +4,6 @@ import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -65,7 +64,7 @@ public class EmailService {
             helper.setTo(to);
             helper.setSubject("Bienvenido a Viaja Segura");
             helper.setText(content, true);
-            helper.addInline("logoImage", new ClassPathResource("static/images/Logo_VS.png"));
+            helper.addInline("logoImage", new ClassPathResource("static/Logo_VS.png"));
 
             mailSender.send(message);
         } catch (Exception e) {

@@ -6,15 +6,22 @@ import com.viaja_segura.viaja_segura.dtos.passenger.PassengerDto;
 import com.viaja_segura.viaja_segura.models.admin.Admin;
 import com.viaja_segura.viaja_segura.models.driver.Driver;
 import com.viaja_segura.viaja_segura.models.passenger.Passenger;
+import com.viaja_segura.viaja_segura.repositorys.driver.DriverRepository;
 import com.viaja_segura.viaja_segura.services.admin.AdminService;
 import com.viaja_segura.viaja_segura.services.driver.DriverService;
 import com.viaja_segura.viaja_segura.services.passenger.PassengerService;
+import com.viaja_segura.viaja_segura.services.qr_driver.QrService;
 import com.viaja_segura.viaja_segura.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -23,6 +30,9 @@ public class UserController {
     private AdminService adminService;
     @Autowired private PassengerService passengerService;
     @Autowired private DriverService driverService;
+    @Autowired private DriverRepository driverRepository;
+    @Autowired
+    private QrService qrService;
 
     @PostMapping("/register/admin")
     public ResponseEntity<Admin> registerAdmin(@RequestBody AdminDto dto) {
@@ -91,6 +101,42 @@ public class UserController {
             @RequestBody PassengerDto dto) {
         Passenger updated = passengerService.updatePassengerInfo(id, dto);
         return ResponseEntity.ok(updated);
+    }
+
+
+    @GetMapping("/drivers/available")
+    public ResponseEntity<List<Driver>> getAvailableDrivers() {
+        List<Driver> availableDrivers = driverRepository.findByIsAvailableTrue();
+        return ResponseEntity.ok(availableDrivers);
+    }
+
+    @PutMapping("/drivers/{id}/available")
+    public ResponseEntity<Driver> updateAvailability(
+            @PathVariable Long id,
+            @RequestParam boolean available) {
+        Driver updated = driverService.updateAvailability(id, available);
+        return ResponseEntity.ok(updated);
+    }
+
+    @PostMapping("/drivers/{id}/generate-qr")
+    public ResponseEntity<String> generateQr(@PathVariable Long id) {
+        try {
+            String base64 = qrService.generateAndSaveDriverQr(id);
+            return ResponseEntity.ok(base64);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping(value = "/drivers/{id}/qr", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getQr(@PathVariable Long id) {
+        try {
+            String base64 = qrService.getDriverQr(id);
+            byte[] imageBytes = Base64.getDecoder().decode(base64);
+            return ResponseEntity.ok(imageBytes);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

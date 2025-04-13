@@ -35,6 +35,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/passengers/{id}").permitAll()
                         .requestMatchers("/api/users/drivers/{id}").permitAll()
                         .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/api/users/drivers/available").permitAll()
+                        .requestMatchers("/api/users/drivers/{id}/available").permitAll()
 
                         // 🔐 Solo ADMIN puede registrar conductores y admins
                         .requestMatchers("/api/users/register/admin").hasAuthority("ADMIN")

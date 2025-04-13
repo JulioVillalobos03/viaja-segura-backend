@@ -4,6 +4,7 @@ import com.viaja_segura.viaja_segura.dtos.ride.RideDto;
 import com.viaja_segura.viaja_segura.models.driver.Driver;
 import com.viaja_segura.viaja_segura.models.passenger.Passenger;
 import com.viaja_segura.viaja_segura.models.ride.Ride;
+import com.viaja_segura.viaja_segura.models.ride.RideRequestMessage;
 import com.viaja_segura.viaja_segura.models.ride_status.RideStatus;
 import com.viaja_segura.viaja_segura.repositorys.Ride.RideRepository;
 import com.viaja_segura.viaja_segura.repositorys.driver.DriverRepository;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -100,5 +102,54 @@ public class RideService {
         return rideRepository.findByStatus_NameAndDriverIsNull("pending");
     }
 
+
+    public void sendRideRequestToDriver(Long rideId, Long driverId, String originText, String destinationText) {
+        Ride ride = rideRepository.findById(rideId)
+                .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
+
+        RideRequestMessage message = new RideRequestMessage(
+                ride.getId(),
+                ride.getOriginLat(),
+                ride.getOriginLng(),
+                ride.getDestinationLat(),
+                ride.getDestinationLng(),
+                originText,
+                destinationText
+        );
+
+
+
+        // Enviar solo al conductor elegido
+        messagingTemplate.convertAndSend("/topic/ride/request/" + driverId, message);
+    }
+
+    public void updateStatusToInProgress(Long rideId) {
+        Ride ride = rideRepository.findById(rideId)
+                .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
+
+        RideStatus inProgressStatus = rideStatusRepository.findByName("in-progress")
+                .orElseThrow(() -> new RuntimeException("Estado 'in-progress' no encontrado"));
+
+        ride.setStatus(inProgressStatus);
+        ride.setUpdatedAt(LocalDateTime.now());
+        rideRepository.save(ride);
+
+        messagingTemplate.convertAndSend("/topic/ride/status/" + rideId, "in-progress");
+    }
+
+
+    public void updateStatusToCompleted(Long rideId) {
+        Ride ride = rideRepository.findById(rideId)
+                .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
+
+        RideStatus completedStatus = rideStatusRepository.findByName("completed")
+                .orElseThrow(() -> new RuntimeException("Estado 'completed' no encontrado"));
+
+        ride.setStatus(completedStatus);
+        ride.setUpdatedAt(LocalDateTime.now());
+        rideRepository.save(ride);
+
+        messagingTemplate.convertAndSend("/topic/ride/status/" + rideId, "completed");
+    }
 
 }
