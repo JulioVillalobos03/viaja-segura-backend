@@ -69,14 +69,14 @@ public class PassengerService {
         Passenger passenger = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pasajero no encontrado con ID: " + id));
 
-        passenger.setName(dto.name);
-        passenger.setLastName(dto.lastName);
-        passenger.setBirthDate(dto.birthDate);
-        passenger.setSex(dto.sex);
-        passenger.setCurp(dto.curp);
-        passenger.setMunicipality(dto.municipality);
-        passenger.setCity(dto.city);
-        passenger.setPhone(dto.phone);
+        if (dto.name != null) passenger.setName(dto.name);
+        if (dto.lastName != null) passenger.setLastName(dto.lastName);
+        if (dto.birthDate != null) passenger.setBirthDate(dto.birthDate);
+        if (dto.sex != null) passenger.setSex(dto.sex);
+        if (dto.curp != null) passenger.setCurp(dto.curp);
+        if (dto.municipality != null) passenger.setMunicipality(dto.municipality);
+        if (dto.city != null) passenger.setCity(dto.city);
+        if (dto.phone != null) passenger.setPhone(dto.phone);
         passenger.setUpdatedAt(LocalDateTime.now());
 
         return repo.save(passenger);
