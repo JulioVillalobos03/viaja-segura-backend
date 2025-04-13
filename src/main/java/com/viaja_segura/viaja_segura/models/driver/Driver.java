@@ -33,6 +33,9 @@ public class Driver {
     private String password;
     private Boolean isAvailable;
 
+    @Column(name = "qr_code_base64", columnDefinition = "TEXT")
+    private String qrCodeBase64;
+
     @ManyToOne
     @JoinColumn(name = "status_id")
     private DriverStatus status;
@@ -191,5 +194,13 @@ public class Driver {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public String getQrCodeBase64() {
+        return qrCodeBase64;
+    }
+
+    public void setQrCodeBase64(String qrCodeBase64) {
+        this.qrCodeBase64 = qrCodeBase64;
     }
 }

@@ -30,6 +30,8 @@ public class DriverService {
 
     @Autowired
     private DriverStatusRepository driverStatusRepository;
+    @Autowired
+    private DriverRepository driverRepository;
 
 
     public Driver register(DriverDto dto) {
@@ -113,4 +115,13 @@ public class DriverService {
     }
 
 
+    public Driver updateAvailability(Long driverId, boolean available) {
+        Driver driver = driverRepository.findById(driverId)
+                .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
+
+        driver.setAvailable(available);
+        driver.setUpdatedAt(LocalDateTime.now());
+
+        return driverRepository.save(driver);
+    }
 }
