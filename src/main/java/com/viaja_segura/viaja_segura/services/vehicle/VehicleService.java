@@ -59,16 +59,18 @@ public class VehicleService {
         Vehicle vehicle = vehicleRepository.findById(vehicleId)
                 .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
 
-        VehicleStatus status = vehicleStatusRepository.findById(dto.statusId)
-                .orElseThrow(() -> new RuntimeException("Status de vehículo no encontrado"));
+        if (dto.statusId != null) {
+            VehicleStatus status = vehicleStatusRepository.findById(dto.statusId)
+                    .orElseThrow(() -> new RuntimeException("Status de vehículo no encontrado"));
+            vehicle.setStatus(status);
+        }
 
-        vehicle.setPlateNumber(dto.plateNumber);
-        vehicle.setBrand(dto.brand);
-        vehicle.setModel(dto.model);
-        vehicle.setColor(dto.color);
-        vehicle.setSeats(dto.seats);
-        vehicle.setYear(dto.year);
-        vehicle.setStatus(status);
+        if (dto.plateNumber != null) vehicle.setPlateNumber(dto.plateNumber);
+        if (dto.brand != null) vehicle.setBrand(dto.brand);
+        if (dto.model != null) vehicle.setModel(dto.model);
+        if (dto.color != null) vehicle.setColor(dto.color);
+        if (dto.seats != null) vehicle.setSeats(dto.seats);
+        if (dto.year != null) vehicle.setYear(dto.year);
         vehicle.setUpdatedAt(LocalDateTime.now());
 
         return vehicleRepository.save(vehicle);
