@@ -41,7 +41,7 @@ public class EmailService {
             helper.setText(content, true);
 
 
-            FileSystemResource logo = new FileSystemResource(new File("src/main/resources/static/images/Logo_VS.png"));
+            FileSystemResource logo = new FileSystemResource(new File("src/main/resources/static/Logo_VS.png"));
             helper.addInline("logoImage", logo);
 
             mailSender.send(message);

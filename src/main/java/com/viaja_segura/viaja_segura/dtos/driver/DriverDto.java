@@ -13,6 +13,8 @@ public class DriverDto {
     public String curp;
     public String municipality;
     public String city;
+    public String site_address;
+    public String site_name;
     public String email;
     public String password;
     public String phone;
