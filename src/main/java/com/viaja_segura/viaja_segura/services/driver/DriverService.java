@@ -47,6 +47,8 @@ public class DriverService {
         driver.setCurp(dto.curp);
         driver.setMunicipality(dto.municipality);
         driver.setCity(dto.city);
+        driver.setSite_address(dto.site_address);
+        driver.setSite_name(dto.site_name);
         driver.setEmail(dto.email);
         driver.setPhone(dto.phone);
         driver.setPassword(passwordEncoder.encode(dto.password));
@@ -94,6 +96,8 @@ public class DriverService {
         if (dto.curp != null) driver.setCurp(dto.curp);
         if (dto.municipality != null) driver.setMunicipality(dto.municipality);
         if (dto.city != null) driver.setCity(dto.city);
+        if (dto.site_address != null) driver.setSite_address(dto.site_address);
+        if (dto.site_name != null) driver.setSite_name(dto.site_name);
         if (dto.phone != null) driver.setPhone(dto.phone);
         driver.setUpdatedAt(LocalDateTime.now());
 

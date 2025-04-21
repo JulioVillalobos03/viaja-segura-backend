@@ -23,6 +23,8 @@ public class Driver {
     private String curp;
     private String municipality;
     private String city;
+    private String site_address;
+    private String site_name;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -202,5 +204,21 @@ public class Driver {
 
     public void setQrCodeBase64(String qrCodeBase64) {
         this.qrCodeBase64 = qrCodeBase64;
+    }
+
+    public String getSite_address() {
+        return site_address;
+    }
+
+    public void setSite_address(String site_address) {
+        this.site_address = site_address;
+    }
+
+    public String getSite_name() {
+        return site_name;
+    }
+
+    public void setSite_name(String site_name) {
+        this.site_name = site_name;
     }
 }

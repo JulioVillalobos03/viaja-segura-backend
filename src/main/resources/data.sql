@@ -15,9 +15,9 @@ VALUES
     ('Carlos', 'López', '1995-07-20', 'M', 'LOPC950720HDFRRR09', 'Guadalajara', 'Jalisco', 'carlos.p@example.com', '3312345678', '$2a$12$rq1jR46FXBaj87OuVKQKCeIPv0.QMPhmHNBWrqAuRudeL/qC3uOwi', NOW(), NOW());
 
 -- Insertar conductores
-INSERT INTO drivers (name, last_name, birth_date, sex, curp, municipality, city, email, phone, password, is_available, status_id, average_rating, created_at, updated_at)
+INSERT INTO drivers (name, last_name, birth_date, sex, curp, municipality, city, site_address, site_name, email, phone, password, is_available, status_id, average_rating, created_at, updated_at)
 VALUES
-    ('Luis', 'Martínez', '1988-03-15', 'M', 'MRNL880315HDFRRN01', 'Monterrey', 'Nuevo León', 'luis.driver@example.com', '8187654321', '$2a$12$rq1jR46FXBaj87OuVKQKCeIPv0.QMPhmHNBWrqAuRudeL/qC3uOwi', true, 1, 4.8, NOW(), NOW());
+    ('Luis', 'Martínez', '1988-03-15', 'M', 'MRNL880315HDFRRN01', 'Monterrey', 'Nuevo León', 'Calle Lopez Mateo #420', 'Sitio La union', 'luis.driver@example.com', '8187654321', '$2a$12$rq1jR46FXBaj87OuVKQKCeIPv0.QMPhmHNBWrqAuRudeL/qC3uOwi', true, 1, 4.8, NOW(), NOW());
 
 -- Información personal del conductor
 INSERT INTO driver_personal_info (driver_id, license_id, test_passed, badge_expiration)
